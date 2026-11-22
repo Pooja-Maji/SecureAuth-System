@@ -198,5 +198,3 @@ This guarantees user input is treated strictly as data and never executed as SQL
 
 ---
 
-## 📄 License
-This project is open-source and created for educational and internship demonstration purposes.
