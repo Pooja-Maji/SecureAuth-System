@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Register - SecureAuth System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+        <div class="auth-card p-4 p-sm-5">
+            <div class="text-center mb-4">
+                <div class="card-header-icon">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
+                <h3 class="fw-bold mb-1">Create Account</h3>
+                <p class="text-muted small">Sign up for a new secure account</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('register') }}" novalidate>
+                <!-- Full Name Field -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="name" 
+                            name="name" 
+                            placeholder="John Doe" 
+                            value="{{ name if name else '' }}" 
+                            required 
+                            minlength="2"
+                            autofocus
+                        >
+                    </div>
+                    <div class="form-text">At least 2 characters.</div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="email" 
+                            name="email" 
+                            placeholder="name@example.com" 
+                            value="{{ email if email else '' }}" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password" 
+                            name="password" 
+                            placeholder="••••••••" 
+                            required 
+                            minlength="6"
+                        >
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                        </button>
+                    </div>
+                    <div class="form-text">Minimum 6 characters.</div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="mb-4">
+                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="confirm_password" 
+                            name="confirm_password" 
+                            placeholder="••••••••" 
+                            required 
+                            minlength="6"
+                        >
+                        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                            <i class="bi bi-eye" id="toggleConfirmPasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary-custom w-100 py-2 mb-3">
+                    <i class="bi bi-check2-circle me-1"></i> Register Account
+                </button>
+
+                <!-- Link to Login -->
+                <div class="text-center pt-2 border-top">
+                    <p class="text-muted small mb-0">
+                        Already have an account? 
+                        <a href="{{ url_for('login') }}" class="text-primary text-decoration-none fw-semibold">
+                            Log In
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Password visibility toggle helpers
+    function setupPasswordToggle(buttonId, inputId, iconId) {
+        const toggleBtn = document.getElementById(buttonId);
+        const inputField = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (toggleBtn && inputField && icon) {
+            toggleBtn.addEventListener('click', function() {
+                const isPassword = inputField.getAttribute('type') === 'password';
+                inputField.setAttribute('type', isPassword ? 'text' : 'password');
+                icon.classList.toggle('bi-eye', !isPassword);
+                icon.classList.toggle('bi-eye-slash', isPassword);
+            });
+        }
+    }
+
+    setupPasswordToggle('togglePassword', 'password', 'togglePasswordIcon');
+    setupPasswordToggle('toggleConfirmPassword', 'confirm_password', 'toggleConfirmPasswordIcon');
+</script>
+{% endblock %}
